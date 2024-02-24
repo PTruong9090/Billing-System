@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blitter</title>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Blitter</h2>
+    <p class="creative-element">You have successfully logged in!</p>
+    <button onclick="signOut()">Sign Out</button>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-database.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyCzIMqHEGN2L8osfCiqMBN0lDG-TWhmyME",
+        authDomain: "blitter-890d6.firebaseapp.com",
+        projectId: "blitter-890d6",
+        storageBucket: "blitter-890d6.appspot.com",
+        messagingSenderId: "664599496533",
+        appId: "1:664599496533:web:5d68050728172e9f5311dc"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+
+    // Check if there's a user signed in
+    firebase.auth().onAuthStateChanged(user => {
+        if (!user) {
+            // If no user is signed in, redirect to App.js page
+            window.location.href = 'App.js';
+        }
+    });
+
+    // Function to check Firebase initialization
+    function checkFirebaseInit(callback) {
+        if (firebase.auth().currentUser) {
+            callback();
+        } else {
+            setTimeout(() => checkFirebaseInit(callback), 100);
+        }
+    }
+</script>
+
+<script>
+    function signOut() {
+        checkFirebaseInit(() => {
+            firebase.auth().signOut().then(() => {
+                window.location.href = 'App.js';
+            }).catch((error) => {
+                alert(error.message);
+            });
+        });
+    }
+</script>
+
+</body>
+</html>
