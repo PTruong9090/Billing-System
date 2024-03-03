@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 // Import the auth object from the firebaseConfig file
-import { auth } from './firebaseConfig'; 
+import { auth } from './firebaseConfig';
 import './App.css';
 
 const Login = () => {
-    // State variables using useState hook from React
+  // State variables using useState hook from React
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -16,7 +16,7 @@ const Login = () => {
   const signIn = () => {
     // Validates email and password
     if (!email || !password) {
-      setErrorMessage("Please enter a valid email and password.");
+      setErrorMessage('Please enter a valid email and password.');
       return;
     }
 
@@ -25,16 +25,18 @@ const Login = () => {
       .then(() => {
         navigate('/dashboard');
       })
-      .catch(error => {
-        setErrorMessage("Wrong email or password");
+      .catch((error) => {
+        setErrorMessage('Wrong email or password');
       });
-  }
+  };
+
+
 
   // Function to handle sign-up
   const signUp = () => {
     // Validates email and password
     if (!email || !password) {
-      setErrorMessage("Please enter a valid email and password.");
+      setErrorMessage('Please enter a valid email and password.');
       return;
     }
 
@@ -45,19 +47,30 @@ const Login = () => {
         navigate('/dashboard');
       })
       // Handles different errors with signing up
-      .catch(error => {
+      .catch((error) => {
         switch (error.code) {
           case 'auth/invalid-email':
-            setErrorMessage("Invalid email address. Please enter a valid email.");
+            setErrorMessage('Invalid email address. Please enter a valid email.');
             break;
           case 'auth/email-already-in-use':
-            setErrorMessage("Email is already in use");
+            setErrorMessage('Email is already in use');
+            break;
+          case 'auth/weak-password':
+            setErrorMessage('Password is too short. Please choose a stronger password.');
             break;
           default:
-            setErrorMessage("Error creating account. Please try again later.");
+            setErrorMessage('Error creating account. Please try again later.');
         }
       });
-  }
+  };
+
+
+  
+  const resetPassword = () => {
+    navigate('/reset');
+  };
+
+
 
   // JSX (Javascript syntax extension) structure for rendering
   return (
@@ -67,10 +80,13 @@ const Login = () => {
       <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
       <button onClick={signIn}>Log In</button>
       <button onClick={signUp}>Sign Up</button>
-      {/*Displays error messages*/}
-      <p id="errorMessage" style={{ color: '#fff' }}>{errorMessage}</p>
+      {/* Displays error messages */}
+      <p id="errorMessage" style={{ color: '#fff' }}>
+        {errorMessage}
+      </p>
+      <a onClick={resetPassword} className="password-reset-link">Forgot password?</a>
     </div>
   );
-}
+};
 
 export default Login;

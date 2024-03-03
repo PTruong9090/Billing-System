@@ -21,6 +21,8 @@ const Dashboard = () => {
     return () => unsubscribe();
   }, [navigate]); //Dependencies: useEffect will re-run if navigate changes
 
+
+  
   const signOut = () => {
     // Sign out the user using the signOut method from the auth object
     auth.signOut().then(() => {
@@ -30,6 +32,7 @@ const Dashboard = () => {
     });
   };
 
+  // JSX (Javascript syntax extension) structure for rendering
   return (
     <div className="login-container">
       <h2>EvenOut</h2>

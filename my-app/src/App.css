@@ -42,12 +42,13 @@ button:hover {
     background-color: #45a049;
 }
 
-/* Make the "Forgot Password?" link white */
-a {
+.password-reset-link {
+    text-decoration: none;
     color: #fff;
     font-size: 15px;
+    cursor: pointer;
 }
-a {
-    color: #fff;
-    font-size: 15px;
+
+.password-reset-link:hover {
+    text-decoration: underline;
 }
